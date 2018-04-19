@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.example.media.smack.R
+import com.example.media.smack.Services.AuthService
 import kotlinx.android.synthetic.main.activity_creste_user.*
 import java.util.*
 
@@ -49,6 +50,13 @@ class CresteUserActivity : AppCompatActivity() {
     }
 
     fun createUserClicked(view: View) {
+
+        AuthService.registerUser(this, "mnnachi@gmail.com", "123456"){complete ->
+            if (complete){
+
+            }
+
+        }
 
     }
 }
