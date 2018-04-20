@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import com.example.media.smack.R
 import com.example.media.smack.Services.AuthService
+import com.example.media.smack.Services.UserDataService
 import kotlinx.android.synthetic.main.activity_creste_user.*
 import java.util.*
 
@@ -50,20 +51,26 @@ class CresteUserActivity : AppCompatActivity() {
     }
 
     fun createUserClicked(view: View) {
+
+        val userName = createUserNameText.text.toString()
         val email = createEmailText.text.toString()
         val password = createPasswordText.text.toString()
 
-        AuthService.registerUser(this, email, password){registerSuccess ->
-            if (registerSuccess){
-                AuthService.loginUser(this, email, password){loginSucces ->
-                    if (loginSucces){
-                        println(AuthService.authToken)
-                        println(AuthService.userEmail)
+        AuthService.registerUser(this, email, password) { registerSuccess ->
+            if (registerSuccess) {
+                AuthService.loginUser(this, email, password) { loginSucces ->
+                    if (loginSucces) {
+                        AuthService.createUser(this, userName, email, userAvatar, avatarColor) { createSuccess ->
+                            if (createSuccess) {
+                                println(UserDataService.avatarName)
+                                println(UserDataService.avatarColor)
+                                println(UserDataService.name)
+                                finish()
+                            }
+                        }
                     }
                 }
             }
-
         }
-
     }
 }
