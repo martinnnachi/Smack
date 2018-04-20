@@ -50,10 +50,17 @@ class CresteUserActivity : AppCompatActivity() {
     }
 
     fun createUserClicked(view: View) {
+        val email = createEmailText.text.toString()
+        val password = createPasswordText.text.toString()
 
-        AuthService.registerUser(this, "mnnachi@gmail.com", "123456"){complete ->
-            if (complete){
-
+        AuthService.registerUser(this, email, password){registerSuccess ->
+            if (registerSuccess){
+                AuthService.loginUser(this, email, password){loginSucces ->
+                    if (loginSucces){
+                        println(AuthService.authToken)
+                        println(AuthService.userEmail)
+                    }
+                }
             }
 
         }
