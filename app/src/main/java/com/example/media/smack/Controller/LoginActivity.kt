@@ -17,6 +17,7 @@ class LoginActivity : AppCompatActivity() {
 
         val createUserIntent = Intent(this, CresteUserActivity::class.java)
         startActivity(createUserIntent)
+        finish()
     }
 
     fun loginLoginBtnClicked(view: View) {

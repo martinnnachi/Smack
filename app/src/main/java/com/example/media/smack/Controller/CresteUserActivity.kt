@@ -71,12 +71,8 @@ class CresteUserActivity : AppCompatActivity() {
                         if (loginSucces) {
                             AuthService.createUser(this, userName, email, userAvatar, avatarColor) { createSuccess ->
                                 if (createSuccess) {
-
                                     val userDataChange = Intent(BROADCAST_USER_DATA_CHANGE)
                                     LocalBroadcastManager.getInstance(this).sendBroadcast(userDataChange)
-
-
-
                                     enableSpinner(false)
                                     finish()
                                 } else {
@@ -91,7 +87,7 @@ class CresteUserActivity : AppCompatActivity() {
                     errorToast()
                 }
             }
-        }else {
+        } else {
             Toast.makeText(this, "Make sure usernam, email and password fields are filled in.", Toast.LENGTH_LONG).show()
             enableSpinner(false)
         }
