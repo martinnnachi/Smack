@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.example.media.smack.R
+import com.example.media.smack.R.id.*
 import com.example.media.smack.Services.AuthService
 import com.example.media.smack.Services.UserDataService
 import com.example.media.smack.Utilities.BROADCAST_USER_DATA_CHANGE
@@ -63,7 +64,7 @@ class MainActivity : AppCompatActivity(){
         if (AuthService.isLoggedIn){
             // log out
             UserDataService.logout()
-            userNameNavHeader.text = "Login"
+            userNameNavHeader.text = ""
             userEmailNavHeader.text = ""
             userImageNavHeader.setImageResource(R.drawable.profiledefault)
             userImageNavHeader.setBackgroundColor(Color.TRANSPARENT)

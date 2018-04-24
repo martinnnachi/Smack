@@ -8,6 +8,7 @@ import android.support.v4.content.LocalBroadcastManager
 import android.view.View
 import android.widget.Toast
 import com.example.media.smack.R
+import com.example.media.smack.R.id.*
 import com.example.media.smack.Services.AuthService
 import com.example.media.smack.Services.UserDataService
 import com.example.media.smack.Utilities.BROADCAST_USER_DATA_CHANGE
@@ -23,6 +24,7 @@ class CresteUserActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_creste_user)
         createSpinner.visibility = View.INVISIBLE
+
     }
 
 
