@@ -8,21 +8,19 @@ import android.support.v4.content.LocalBroadcastManager
 import android.view.View
 import android.widget.Toast
 import com.example.media.smack.R
-import com.example.media.smack.R.id.*
 import com.example.media.smack.Services.AuthService
-import com.example.media.smack.Services.UserDataService
 import com.example.media.smack.Utilities.BROADCAST_USER_DATA_CHANGE
-import kotlinx.android.synthetic.main.activity_creste_user.*
+import kotlinx.android.synthetic.main.activity_create_user.*
 import java.util.*
 
-class CresteUserActivity : AppCompatActivity() {
+class CreateUserActivity : AppCompatActivity() {
 
     var userAvatar = "profileDefault"
     var avatarColor = "[0.5, 0.5, 0.5, 1]"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_creste_user)
+        setContentView(R.layout.activity_create_user)
         createSpinner.visibility = View.INVISIBLE
 
     }
