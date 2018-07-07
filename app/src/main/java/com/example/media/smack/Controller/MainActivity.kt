@@ -16,11 +16,15 @@ import com.example.media.smack.R.id.*
 import com.example.media.smack.Services.AuthService
 import com.example.media.smack.Services.UserDataService
 import com.example.media.smack.Utilities.BROADCAST_USER_DATA_CHANGE
+import com.example.media.smack.Utilities.SOCKET_URL
+import io.socket.client.IO
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity() {
+
+    val socket = IO.socket(SOCKET_URL)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,10 +36,26 @@ class MainActivity : AppCompatActivity(){
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
-        hideKeyboard()
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(userDataChangeReceiver, IntentFilter(BROADCAST_USER_DATA_CHANGE))
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        LocalBroadcastManager.getInstance(this).registerReceiver(userDataChangeReceiver,
+                IntentFilter(BROADCAST_USER_DATA_CHANGE))
+
+        socket.connect()
+    }
+
+    override fun onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(userDataChangeReceiver)
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        socket.disconnect()
+        super.onDestroy()
     }
 
     private val userDataChangeReceiver = object : BroadcastReceiver() {
@@ -60,9 +80,9 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    fun loginBtnNavClicked(view: View){
+    fun loginBtnNavClicked(view: View) {
 
-        if (AuthService.isLoggedIn){
+        if (AuthService.isLoggedIn) {
             // log out
             UserDataService.logout()
             userNameNavHeader.text = ""
@@ -71,14 +91,14 @@ class MainActivity : AppCompatActivity(){
             userImageNavHeader.setBackgroundColor(Color.TRANSPARENT)
             loginBtnNavHeader.text = "Login"
 
-        }else {
+        } else {
             val loginIntent = Intent(this, LoginActivity::class.java)
             startActivity(loginIntent)
         }
     }
 
-    fun addChannelClicked(view: View){
-        if(AuthService.isLoggedIn){
+    fun addChannelClicked(view: View) {
+        if (AuthService.isLoggedIn) {
             val builder = AlertDialog.Builder(this)
             val dialogView = layoutInflater.inflate(R.layout.add_channel_dialog, null)
 
@@ -91,19 +111,20 @@ class MainActivity : AppCompatActivity(){
                         val channelDesc = descTextField.text.toString()
 
                         //Create channel with channel name and description
-                        hideKeyboard()
+                        socket.emit("newChannel", channelName, channelDesc)
+
 
                     }
-                    .setNegativeButton("Cancel"){ dialogInterface, i ->
+                    .setNegativeButton("Cancel") { dialogInterface, i ->
 
-                        hideKeyboard()
+
                     }
                     .show()
         }
     }
 
     fun sendMessageBtnClicked(view: View) {
-
+        hideKeyboard()
     }
 
     fun hideKeyboard() {
@@ -113,8 +134,6 @@ class MainActivity : AppCompatActivity(){
             inputManager.hideSoftInputFromWindow(currentFocus.windowToken, 0)
         }
     }
-
-
 
 
 }
